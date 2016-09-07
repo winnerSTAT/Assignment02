@@ -20,9 +20,9 @@ This assignment is **due at 23:59 of Sep 8, Thursday**. You can work on this fil
 
 Also, put the Section/Group and member info below.
 ```{r}
-# Section G?
-# Group ??
-# Members: YOUR NAMES HERE
+# Section G2
+# Group 05
+# Members: CHEN XIANG, XU YUWEN, YANG YUBO, ZHANG YUN
 ```
 
 
@@ -44,7 +44,7 @@ summary(data)
 The true WTP has mean `r mean(wtp)` and standard deviation `r sd(wtp)`, and its distribution is as below.
 ```{r}
 hist(wtp, breaks=15, probability=TRUE)
-curve(dlnorm(x, 3, 0.5), from=0, to=80, add=TRUE)
+curve(dlnorm(x, 3, 0.5),  add=TRUE, from=0, to=80)
 ```
 
 In the following, we shall try to estimate the WTP distribution based on the data with **price** and **purchase** information only.
@@ -101,10 +101,10 @@ theta2
 Answer: 
 
 ```{r}
-curve(dlnorm(x, 3, 0.5), from=0, to=80, xlab = "wtp", ylab = "prob")
+curve(dgamma(x,shape=theta2[1],rate=theta2[2]), from=0, to=80, xlab = "wtp", ylab = "prob", col = "red")
 curve(dnorm(x,mean=theta1[1],sd=theta1[2]), from=0, to=80, col = "blue", add= TRUE)
-curve(dgamma(x,shape=theta2[1],rate=theta2[2]), from=0, to=80, col = "red", add= TRUE)
-# From the graph, we can see that gamma distribution is more accurate.
+curve(dlnorm(x, 3, 0.5), from=0, to=80, add= TRUE)
+# From the graph, we can see that gamma distribution is more accurate for preding the true distribution (compare the red curve to the black curve). the normal distribution model is not likely to be accurate as compared to the black curve.
 ```
 
 
@@ -185,9 +185,9 @@ Answer:
   beta1 <- theta3[2]
   beta2 <- theta3[3]
   sigma <- theta3[4]
-prob.purchase <- pnorm(data.test$price-beta0-beta1*data.test$x1-beta2*data.test$x2,mean=0,sd=sigma,lower.tail = FALSE, log.p = TRUE)
-data.test$purchase.pred <- (prob.purchase >= log(0.5))
-data.test$comparison <- (data.test$purchase == data.test$purchase.pred)
+data.test$WTP_pred <- beta0+beta1*data.test$x1+beta2*data.test$x2
+data.test$purchase_pred <- (data.test$WTP_pred >= data.test$price)
+data.test$comparison <- (data.test$purchase == data.test$purchase_pred)
 head(data.test)
 summary(data.test$comparison)
 ```
