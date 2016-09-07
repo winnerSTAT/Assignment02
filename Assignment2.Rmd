@@ -190,6 +190,7 @@ data.test$purchase_pred <- (data.test$WTP_pred >= data.test$price)
 data.test$comparison <- (data.test$purchase == data.test$purchase_pred)
 head(data.test)
 summary(data.test$comparison)
+sum(data.test$comparison)/length(data.test$comparison)
 ```
 
 
